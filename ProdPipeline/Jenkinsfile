@@ -1,15 +1,12 @@
 pipeline {
     agent any
-	tools {
-        maven "MAVEN3"
-        jdk "OracleJDK8"
-    }
 
     environment {
         cluster = "vproprod"
         service = "vproappprodsvc"
     }
-	stage('Deploy to prod ecs') {
+    stages {
+        stage('Deploy to prod ecs') {
             steps {
                 withAWS(credentials: 'awscreds', region: 'eu-west-1') {
                     sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
@@ -17,3 +14,4 @@ pipeline {
             }
         }
     }
+}
