@@ -9,8 +9,7 @@ pipeline {
         cluster = "vproprod"
         service = "vproappprodsvc"
     }
-	
-        stage('Deploy to prod ecs') {
+	stage('Deploy to prod ecs') {
             steps {
                 withAWS(credentials: 'awscreds', region: 'eu-west-1') {
                     sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
